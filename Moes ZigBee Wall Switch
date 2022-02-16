@@ -1,6 +1,10 @@
 import hubitat.device.HubAction
 import hubitat.device.Protocol
 
+/*
+ *  revision 1.01 - added Moes 4-Gang Switch / ZTS-EU4 
+*/
+
 metadata {
     definition (name: "Moes ZigBee Wall Switch 1/2/3-Gang", namespace: "Moes 1.31", author: "Martin Kura") {
         capability "Initialize"
@@ -10,8 +14,9 @@ metadata {
         capability "Switch"
         
         fingerprint profileId:"0104", model:"TS0601", manufacturer:"_TZE200_amp6tsvy", endpointId:"01", inClusters:"0000,0004,0005,EF00", outClusters:"0019,000A", application:"42", deviceJoinName: "Moes 1-Gang Switch / ZTS-EU1"
-	fingerprint profileId:"0104", model:"TS0601", manufacturer:"_TZE200_g1ib5ldv", endpointId:"01", inClusters:"0000,0004,0005,EF00", outClusters:"0019,000A", application:"42", deviceJoinName: "Moes 2-Gang Switch / ZTS-EU2"
+	    fingerprint profileId:"0104", model:"TS0601", manufacturer:"_TZE200_g1ib5ldv", endpointId:"01", inClusters:"0000,0004,0005,EF00", outClusters:"0019,000A", application:"42", deviceJoinName: "Moes 2-Gang Switch / ZTS-EU2"
         fingerprint profileId:"0104", model:"TS0601", manufacturer:"_TZE200_tz32mtza", endpointId:"01", inClusters:"0000,0004,0005,EF00", outClusters:"0019,000A", application:"42", deviceJoinName: "Moes 3-Gang Switch / ZTS-EU3"
+        fingerprint profileId:"0104", model:"TS0601", manufacturer:"_TZE200_k6jhsr0q", endpointId:"01", inClusters:"0000,0004,0005,EF00", outClusters:"0019,000A", application:"42", deviceJoinName: "Moes 4-Gang Switch / ZTS-EU4"
     }
         attribute "switchLightMode","enum",["OFF", "ON", "Position"]
         attribute "relayMode","enum",["OFF", "ON", "Last state"]
@@ -19,7 +24,7 @@ metadata {
 
     preferences {
         input(name: "switchLightMode", type: "enum", title: ("Switch Backlight Mode"), description: ("- select type of backlight indicator (default: Position)"), options: ["OFF", "ON", "Position"], defaultValue: "Position", submitOnChange: true)
-	input(name: "relayMode", type: "enum", title: ("Switch Relay Mode"), description: ("- select relay renew state after AC failed (default: OFF)"), options: ["OFF", "ON", "Last state"], defaultValue: "OFF", submitOnChange: true)
+	    input(name: "relayMode", type: "enum", title: ("Switch Relay Mode"), description: ("- select relay renew state after AC failed (default: OFF)"), options: ["OFF", "ON", "Last state"], defaultValue: "OFF", submitOnChange: true)
         input(name: "debugLogging", type: "bool", title: ("Enable debug logging"), description: "", defaultValue: true, submitOnChange: true, displayDuringSetup: true)
         input(name: "infoLogging", type: "bool", title: ("Enable info logging"), description: "", defaultValue: true, submitOnChange: true, displayDuringSetup: true)
     }
@@ -196,13 +201,16 @@ def setupChildDevices() {
     switch (device.data.manufacturer) {
         case '_TZE200_amp6tsvy':
             buttons = 1
-        break
+            break
         case '_TZE200_g1ib5ldv':
             buttons = 2
-        break
-	case '_TZE200_tz32mtza':
+            break
+	    case '_TZE200_tz32mtza':
             buttons = 3
-        break
+            break
+	    case '_TZE200_k6jhsr0q':
+            buttons = 4
+            break
     }
     if (infoLogging) log.info  "model: ${device.data.manufacturer}   buttons: $buttons"
     createChildDevices((int)buttons)
