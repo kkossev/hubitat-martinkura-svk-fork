@@ -2,7 +2,7 @@ import hubitat.device.HubAction
 import hubitat.device.Protocol
 
 /*
- *  revision 1.01 -2022-02-21- added Moes 4-Gang Switch / ZTS-EU4 
+ *  revision 1.01 -2022-02-22- added Moes 4-Gang Switch / ZTS-EU4 
 */
 
 metadata {
@@ -110,7 +110,7 @@ def parse(String description) {
 			            // switch toggled
 			            cd.parse([[name: "switch", value:switchState, descriptionText: "Child switch ${switchFunc} turned $switchState"]])
 			        } 
-			        else if (descMap?.command == "01") {
+			        else if (descMap?.command in ["01", "02"]) {
                         // report switch status
                         cd.parse([[name: "switch", value:switchState, descriptionText: "Child switch ${switchFunc} is $switchState"]])
 			        }
