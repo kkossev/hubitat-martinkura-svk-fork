@@ -2,7 +2,8 @@ import hubitat.device.HubAction
 import hubitat.device.Protocol
 
 /*
- *  revision 1.01 -2022-02-22- added Moes 4-Gang Switch / ZTS-EU4 
+ *  revision 1.01 - 2022-02-22 - added Moes 4-Gang Switch / ZTS-EU4 
+ *  revision 1.02 - 2022-02-27 - added more Tuya fingerprints for 1,2,3 and 4 gangs TS0601 wall switches
 */
 
 metadata {
@@ -199,16 +200,28 @@ def setupChildDevices() {
     deleteObsoleteChildren() 
     def buttons = 0
     switch (device.data.manufacturer) {
-        case '_TZE200_amp6tsvy':
+        case '_TZE200_amp6tsvy' :
+        case '_TZE200_oisqyl4o' :
+        case '_TZE200_tz32mtza' :
+        case '_TZE200_wfxuhoea' :
             buttons = 1
             break
-        case '_TZE200_g1ib5ldv':
+        case '_TZE200_g1ib5ldv' :
+        case '_TZE200_wunufsil' :
             buttons = 2
             break
-	    case '_TZE200_tz32mtza':
+	    case '_TZE200_tz32mtza' :
+        case '_TZE200_kyfqmmyl' :
             buttons = 3
             break
-	    case '_TZE200_k6jhsr0q':
+	    case '_TZE200_k6jhsr0q' :
+        case '_TZE200_aqnazj70' :
+        case '_TZE200_1ozguk6x' :
+            buttons = 4
+            break
+        case '_TZE200_vhy3iakz' :
+        case '_TZ3000_uim07oem' :
+        default :                     // assume 4 buttons also for any unknown manufacturers codes!
             buttons = 4
             break
     }
